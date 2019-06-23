@@ -9,11 +9,11 @@ module Mastodon
     end
 
     def minor
-      6
+      9
     end
 
     def patch
-      5
+      0
     end
 
     def pre
@@ -21,7 +21,7 @@ module Mastodon
     end
 
     def flags
-      ['radical']
+      'radical'
     end
 
     def to_a
@@ -37,12 +37,12 @@ module Mastodon
     end
 
     def source_base_url
-      "https://github.com/#{repository}"
+      ENV.fetch('SOURCE_BASE_URL') { "https://github.com/#{repository}" }
     end
 
     # specify git tag or commit hash here
     def source_tag
-      nil
+      ENV.fetch('SOURCE_TAG') { nil }
     end
 
     def source_url

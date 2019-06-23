@@ -3,8 +3,14 @@
 class MediaController < ApplicationController
   include Authorization
 
+  skip_before_action :store_current_location
+
   before_action :set_media_attachment
   before_action :verify_permitted_status!
+
+  content_security_policy only: :player do |p|
+    p.frame_ancestors(false)
+  end
 
   def show
     redirect_to @media_attachment.file.url(:original)
@@ -12,6 +18,7 @@ class MediaController < ApplicationController
 
   def player
     @body_classes = 'player'
+    response.headers['X-Frame-Options'] = 'ALLOWALL'
     raise ActiveRecord::RecordNotFound unless @media_attachment.video? || @media_attachment.gifv?
   end
 
